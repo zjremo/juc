@@ -9,6 +9,7 @@ public class TestNotify {
     private static boolean hasCigarette = false;
     private static boolean hasTakeOut = false;
 
+    // sleep时不会释放掉对象锁，所以其他线程拿不到对象锁被迫阻塞
     // 干活的线程要被迫阻塞，完全没有利用到wait和notify机制
     public static void main(String[] args) {
         new Thread(() -> {
