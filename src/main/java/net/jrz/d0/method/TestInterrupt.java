@@ -58,7 +58,7 @@ public class TestInterrupt {
             // 调用静态方法Thread.interrupted()此时会让打断标记清除
             log.debug("打断状态: {}", Thread.currentThread().isInterrupted());
             // 如果打断标记已经是true，则park会失效
-            LockSupport.park();
+            LockSupport.park(); // park其实和wait很像，它相当于主动检查自己现在的'干粮'是否支持接下来的运行
             log.debug("unpark...");
         }, "t2");
         t2.start();
