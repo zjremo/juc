@@ -9,7 +9,7 @@ import java.util.concurrent.Semaphore;
 public class TestSemaphore {
     public static void main(String[] args) {
         // 1. 创建semaphore 对象
-        Semaphore semaphore = new Semaphore(3);
+        Semaphore semaphore = new Semaphore(3); // 类似停车位的数量，每次使用一个空闲停车位就会减1
 
         // 2. 10个线程同时运行
         for (int i = 0; i < 10; ++i){
