@@ -1,61 +1,49 @@
 package net.jrz.d10;
 
 import lombok.extern.slf4j.Slf4j;
+import net.jrz.util.Sleeper;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+// 读写锁
 @Slf4j(topic = "c.TestReentrantReadWriteLock")
 public class TestReentrantReadWriteLock {
-    private final Map<String, String> cache = new HashMap<>();
+    private Object data;
     private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final ReentrantReadWriteLock.ReadLock readLock = readWriteLock.readLock();
     private final ReentrantReadWriteLock.WriteLock writeLock = readWriteLock.writeLock();
 
-    public String get(String key){
+    public Object read(){
+        log.debug("get readLock...");
         readLock.lock();
         try {
-            String val = cache.get(key);
-            log.debug("read data {}", val);
-            return val;
+            log.debug("read...");
+            Sleeper.sleep(1);
+            return data;
         } finally {
+            log.debug("free readLock...");
             readLock.unlock();
         }
     }
 
-    public void put(String key, String value){
+    public void write(){
+        log.debug("get writeLock...");
         writeLock.lock();
         try {
-            log.debug("write data ({}, {})", key, value);
-            cache.put(key, value);
+            log.debug("write...");
+            Sleeper.sleep(1);
         } finally {
+            log.debug("free writeLock...");
             writeLock.unlock();
         }
     }
 
-    public void demo(){
-        TestReentrantReadWriteLock demo = new TestReentrantReadWriteLock();
-
-        // 2个写线程，5个读线程
-        for (int i = 0; i < 2; ++i){
-            final int idx = i;
-
-            new Thread(() -> {
-                demo.put("k" + idx, "v" + idx);
-            }, "Writer-" + i).start();
-        }
-
-        for (int i = 0; i < 5; ++i){
-            new Thread(() -> {
-                demo.get("k1");
-            }, "Reader-" + i).start();
-        }
-    }
-
     public static void main(String[] args) {
-        new TestReentrantReadWriteLock().demo();
+        TestReentrantReadWriteLock rwLock = new TestReentrantReadWriteLock();
+        new Thread(rwLock::read, "t1").start();
+        new Thread(rwLock::write, "t2").start();
     }
+
 }
 
 

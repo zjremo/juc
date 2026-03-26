@@ -23,7 +23,7 @@ public class TestSemaphore {
 
                 try {
                     log.debug("running ... ");
-                    Sleeper.sleep(1);
+                    Sleeper.sleep((int) (Math.random() * 5) + 1); // 随机休眠 1 到 5秒
                     log.debug("end ...");
                 } finally {
                     // 4. 释放许可

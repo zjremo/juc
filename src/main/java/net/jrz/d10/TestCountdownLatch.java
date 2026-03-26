@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 // 主要与线程池配合使用，让线程池执行完所有任务再执行主线程
+// 如果要获取每个线程的执行结果的话，还是使用future更好
 @Slf4j(topic = "c.TestCountdownLatch")
 public class TestCountdownLatch {
     public static void main(String[] args) {
@@ -118,7 +119,7 @@ public class TestCountdownLatch {
             });
         }
         try {
-            latch.await();
+            latch.await(); // 等待线程池中的线程都把任务执行完后才能继续运行
             System.out.println("\n 游戏开始...");
         } catch (InterruptedException e) {
             e.printStackTrace(System.out);

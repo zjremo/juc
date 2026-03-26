@@ -33,6 +33,17 @@ public class TestConcurrentHashMap {
                     }
                 }
         );
+
+//        demo(
+//                () -> new HashMap<String, Integer>(),
+//                (map, words) -> {
+//                    for (String word : words){
+//                        synchronized (map){
+//                            map.put(word, map.getOrDefault(word, 0) + 1);
+//                        }
+//                    }
+//                }
+//        );
     }
 
     // 安全的两种做法
@@ -42,6 +53,7 @@ public class TestConcurrentHashMap {
 //                () -> new ConcurrentHashMap<String, AtomicInteger>(),
 //                (map, words) -> {
 //                    for (String word : words){
+        // 如果缺少一个key，则计算生成一个值，将这个键值放入map集合
 //                        map.computeIfAbsent(word, key -> new AtomicInteger()).getAndIncrement();
 //                    }
 //                }
