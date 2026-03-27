@@ -13,13 +13,12 @@ public class TestVolatile2 {
             initialized = true;
         **/
 
-        if (initialized){ // 使用双检锁来保证安全性
-            synchronized (TestVolatile2.class){
-                if (initialized){
-                    return ;
+        if (!initialized){ // 使用双检锁来保证安全性
+            synchronized (this){
+                if (!initialized){
+                    doInit();
+                    initialized = true;
                 }
-                doInit();
-                initialized = true;
             }
         }
     }
