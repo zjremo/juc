@@ -91,7 +91,7 @@ class GuardedObject {
                     break;
                 }
                 try {
-                    lock.wait(timeToMillis); // 要防止虚假唤醒，虚假唤醒是指response的要求没有达到，结果唤醒了线程
+                    lock.wait(waitTime); // 要防止虚假唤醒，虚假唤醒是指response的要求没有达到，结果唤醒了线程
                 } catch (InterruptedException e) {
                     e.printStackTrace(System.out);
                     throw new RuntimeException(e);
